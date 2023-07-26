@@ -1,38 +1,83 @@
-.App {
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.kanban-board {
+  background-color: #f8f8f8;
+  padding: 20px;
+}
+
+h1 {
   text-align: center;
+  color: slategrey;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.board-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.column {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.todo {
+  border-left: 4px solid #ff9800;
+}
+
+.in-progress {
+  border-left: 4px solid #2196f3;
+}
+
+.done {
+  border-left: 4px solid #4caf50;
+}
+
+.new-task {
+  border: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.App-link {
-  color: #61dafb;
+.new-task input {
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.new-task button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.new-task button:hover {
+  background-color: #45a049;
+}
+
+p {
+  margin: 0;
 }
