@@ -81,3 +81,13 @@ h1 {
 p {
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .board-container {
+    flex-direction: column;
+  }
+
+  .column {
+    margin-bottom: 20px;
+  }
+}
