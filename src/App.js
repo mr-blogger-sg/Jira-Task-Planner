@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid';
 import './App.css';
 
 const KanbanBoard = () => {
-  // Check if tasks exist in localStorage, otherwise set default tasks
   const initialTasks = JSON.parse(localStorage.getItem('kanbanTasks')) || [
     { id: uuid(), title: 'Task 1', description: 'This is Task 1', status: 'todo', deadline: '2024-06-30T12:00' },
     { id: uuid(), title: 'Task 2', description: 'This is Task 2', status: 'inprogress', deadline: '2024-07-01T14:00' },
@@ -12,8 +11,8 @@ const KanbanBoard = () => {
 
   const [tasks, setTasks] = useState(initialTasks);
   const [newTask, setNewTask] = useState({ title: '', description: '', status: 'todo', deadline: '' });
+  const [editTask, setEditTask] = useState(null);
 
-  // Save tasks to localStorage whenever tasks change
   useEffect(() => {
     localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
   }, [tasks]);
@@ -35,6 +34,18 @@ const KanbanBoard = () => {
     setTasks(updatedTasks);
   };
 
+  const handleEditTask = (task) => {
+    setEditTask(task);
+  };
+
+  const handleUpdateTask = () => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === editTask.id ? editTask : task
+    );
+    setTasks(updatedTasks);
+    setEditTask(null);
+  };
+
   return (
     <div className="kanban-board">
       <h1>JiraTask Planner</h1>
@@ -49,6 +60,7 @@ const KanbanBoard = () => {
                   <p>{task.description}</p>
                   <p>Deadline: {new Date(task.deadline).toLocaleString()}</p>
                   <button onClick={() => handleMoveTask(task.id, 'inprogress')}>Move to In Progress</button>
+                  <button onClick={() => handleEditTask(task)}>Edit</button>
                   <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
                 </div>
               )
@@ -85,6 +97,7 @@ const KanbanBoard = () => {
                   <p>Deadline: {new Date(task.deadline).toLocaleString()}</p>
                   <button onClick={() => handleMoveTask(task.id, 'done')}>Move to Done</button>
                   <button onClick={() => handleMoveTask(task.id, 'todo')}>Move to Todo</button>
+                  <button onClick={() => handleEditTask(task)}>Edit</button>
                   <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
                 </div>
               )
@@ -100,12 +113,36 @@ const KanbanBoard = () => {
                   <p>{task.description}</p>
                   <p>Deadline: {new Date(task.deadline).toLocaleString()}</p>
                   <button onClick={() => handleMoveTask(task.id, 'inprogress')}>Move to In Progress</button>
+                  <button onClick={() => handleEditTask(task)}>Edit</button>
                   <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
                 </div>
               )
           )}
         </div>
       </div>
+      {editTask && (
+        <div className="edit-task-form">
+          <h2>Edit Task</h2>
+          <input
+            type="text"
+            placeholder="Task Title"
+            value={editTask.title}
+            onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Task Description"
+            value={editTask.description}
+            onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
+          />
+          <input
+            type="datetime-local"
+            value={editTask.deadline}
+            onChange={(e) => setEditTask({ ...editTask, deadline: e.target.value })}
+          />
+          <button onClick={handleUpdateTask}>Update Task</button>
+        </div>
+      )}
     </div>
   );
 };
